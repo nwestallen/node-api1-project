@@ -47,6 +47,22 @@ server.post('/api/users', (req, res) => {
     }
 });
 
+//DELETE /api/users/:id
+server.delete('/api/users/:id', (req, res) => {
+    const deleteUser = req.params.id;
+    User.remove(deleteUser)
+      .then(user => {
+          if(!user) {
+              res.status(404).json({ message: 'The user with the specified ID does not exist'})
+          } else {
+              res.status(201).json(user)
+          }
+      })
+      .catch(err => {
+          res.status(500).json({ message: 'The user could not be deleted'});
+      })
+});
+
 server.use('*', (req, res) => {
     res.status(400).json({ message: 'resource not found in this server'});
 });
