@@ -31,6 +31,18 @@ server.get('/api/users/:id', (req, res) => {
       });
 });
 
+//POST /api/users
+server.post('/api/users', (req, res) => {
+    const newUser = req.body;
+    User.insert(newUser)
+      .then(user => {
+          res.status(201).json(user);
+      })
+      .catch(err => {
+          res.status(500).json({ message: err.message });
+      });
+});
+
 server.use('*', (req, res) => {
     res.status(400).json({ message: 'resource not found in this server'});
 });
