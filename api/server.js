@@ -15,6 +15,21 @@ server.get('/api/users', (req, res) => {
       });
 });
 
+//GET /api/users/:id
+server.get('/api/users/:id', (req, res) => {
+    const id = req.params.id
+    User.findById(id)
+      .then(user => {
+          if(!user) {
+              res.status(404).json({ message: `User with id ${id} not found`} );
+          } else {
+              res.json(user)
+          }
+      })
+      .catch(err => {
+          res.status(500).json({ message: err.message })
+      });
+});
 
 server.use('*', (req, res) => {
     res.status(400).json({ message: 'resource not found in this server'});
