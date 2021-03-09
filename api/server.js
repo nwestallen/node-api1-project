@@ -55,7 +55,7 @@ server.delete('/api/users/:id', (req, res) => {
           if(!user) {
               res.status(404).json({ message: 'The user with the specified ID does not exist'})
           } else {
-              res.status(201).json(user)
+              res.status(200).json(user)
           }
       })
       .catch(err => {
@@ -63,6 +63,28 @@ server.delete('/api/users/:id', (req, res) => {
       })
 });
 
+//PUT /api/users/:id
+server.put('/api/users/:id', (req, res) => {
+    const updateUser = req.params.id;
+    const newData = req.body;
+    if(!newData.name || !newData.bio) {
+        res.status(400).json({ message: 'Please include a name and bio for the user'})
+    } else {
+        User.update(updateUser, newData)
+        .then(user => {
+            if(!user) {
+                res.status(404).json({ message: 'The user with the specified ID does not exist'})
+            } else {
+                res.status(200).json(user)
+            }
+        })
+        .catch(err => {
+            res.status(500).json({ message: 'The user information could not be modified'})
+        })
+    }
+});
+
+//Catch-all for bad url paths
 server.use('*', (req, res) => {
     res.status(400).json({ message: 'resource not found in this server'});
 });
