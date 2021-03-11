@@ -1,9 +1,12 @@
+require('dotenv').config();
+const path = require('path');
 const server = require('./api/server.js');
+const cors = require('cors');
 
-const port = 5000;
+const PORT = process.env.PORT || 4000
 
-server.listen(port, () => {
-    console.log(`listening on ${port}`);
+server.listen(PORT, () => {
+    console.log(`listening on ${PORT}`);
 });
 
 // START YOUR SERVER HERE
